@@ -5,8 +5,15 @@
 //Global variables
 var approvedForDevelopment= {!SLX__Change_Control__c.Approved_for_development__c};
 var submittedToRequestor = {!SLX__Change_Control__c.Submitted_to_requestor__c};
-var pendingRequestorApproval= ('{!SLX__Change_Control__c.SLX__Request_Status__c}' == 'Pending Requestor Approval');
+var isPendingRequestorApproval= ('{!SLX__Change_Control__c.SLX__Request_Status__c}' == 'Pending Requestor Approval');
+var recordType = {!SLX__Change_Control__c.RecordTypeId};
+var type = {!SLX__Change_Control__c.Type__c};
 
+var recordTypesToCheck = {!$Setup.QTRMCustomSettings__c.ReleaseManagementCRRecordTypes__c}; //{'01220000000IMuV','01220000000I5iz'};//{'IT/Systems', 'Project'} List of record types that needs Release Management Approval
+var excludedTypesToCheck = {!$Setup.QTRMCustomSettings__c.ReleaseManagementCRExcludeTypes__c};
+
+var isIncludeRecordTypes = recordTypesToCheck.indexOf(recordType)>0?true:false;
+var isExcludeTypes = excludedTypesToCheck.indexOf(type)>0?true:false;
 
 function updateStatusToValue(value)
 {
@@ -70,17 +77,20 @@ else {
 alert("Please provide UAT Evidence before submitting CR for approval");
 }
 }
-
-//alert('start');
-if(approvedForDevelopment && !submittedToRequestor)
+//if requeres RM approval by record type and not exclude typs
+if(isIncludeRecordTypes && !isExcludeTypes)
 {
-//alert('dev submission');
-checkDevelopmentInfo();
-}
-else if (pendingRequestorApproval && submittedToRequestor)
-{
-//alert('operations submission');
-checkRequestorInfo();
+  //alert('start');
+  if(approvedForDevelopment && !submittedToRequestor)
+  {
+  //alert('dev submission');
+  checkDevelopmentInfo();
+  }
+  else if (isPendingRequestorApproval && submittedToRequestor)
+  {
+  //alert('operations submission');
+  checkRequestorInfo();
+  }
 }
 else
 {
