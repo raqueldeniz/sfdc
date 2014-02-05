@@ -9,8 +9,8 @@ var isPendingRequestorApproval= ('{!SLX__Change_Control__c.SLX__Request_Status__
 var recordType = {!SLX__Change_Control__c.RecordTypeId};
 var type = {!SLX__Change_Control__c.Type__c};
 
-var recordTypesToCheck = {!$Setup.QTRMCustomSettings__c.ReleaseManagementCRRecordTypes__c}; //{'01220000000IMuV','01220000000I5iz'};//{'IT/Systems', 'Project'} List of record types that needs Release Management Approval
-var excludedTypesToCheck = {!$Setup.QTRMCustomSettings__c.ReleaseManagementCRExcludeTypes__c};
+var recordTypesToCheck = {!$Setup.QTRMCustomSet__c.CRRecordTypes__c}; //{'01220000000IMuV','01220000000I5iz'};{'IT/Systems', 'Project'} List of record types that needs Release Management Approval
+var excludedTypesToCheck = {!$Setup.QTRMCustomSet__c.CRExcludeTypes__c};
 
 var isIncludeRecordTypes = recordTypesToCheck.indexOf(recordType)>0?true:false;
 var isExcludeTypes = excludedTypesToCheck.indexOf(type)>0?true:false;
